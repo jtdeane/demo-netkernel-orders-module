@@ -1,0 +1,21 @@
+<registration>
+	<name>
+		<first>David</first>
+		<last>Copperfield</last>
+	</name>
+	<address>
+		<street>149 Magic Mountain Parkway</street>
+		<city>Santa Clarita</city>
+		<state>CA</state>
+		<zip>91355</zip>
+	</address>
+	<powers>
+	   <power>Levitation</power>
+	   <power>Apparition</power>
+	   <power>Transfiguration</power>
+	</powers>
+	<experience>
+	   <years>20</years>
+	   <shows>400</shows>
+	</experience>
+</registration>

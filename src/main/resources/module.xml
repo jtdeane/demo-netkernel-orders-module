@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="2.0">
+    <meta>
+        <identity>
+            <uri>urn:cogito:online:orders</uri>
+            <version>1.0.0</version>
+        </identity>
+        <info>
+            <name>Online Orders</name>
+            <description>Online Order Processing</description>
+            <icon>res:/cogito/online/pub/cogito-logo.gif</icon>
+        </info>
+    </meta>
+    <rootspace public="true" uri="urn:cogito:online:orders">
+        <!-- Endpoints -->
+        <accessor>
+            <!-- Example: res:/cogito/online/batch/12345 
+            OR res:/cogito/online/order/X1121 -->
+			<grammar>
+			     <choice>
+				    <group name="OrdersRequest">
+					    res:/cogito/online/batch/
+					    <group name="batchID"><regex type="alphanum"/></group>
+					    <regex type="anything"/>
+				    </group>
+				    <group name="OrderRequest">
+                        res:/cogito/online/order/
+                        <group name="orderID"><regex type="alphanum"/></group>
+                        <regex type="anything"/>
+                    </group>				    
+		          </choice>
+			 </grammar>
+			 <class>cogito.online.ordering.OrdersAccessor</class>
+        </accessor>
+        <accessor>
+            <!-- Example: res:/cogito/online/taxed/batch/12345 
+            OR res:/cogito/online/taxed/order/X1121 -->
+            <grammar>
+                 <choice>
+                    <group name="OrdersRequest">
+                        res:/cogito/online/taxed/batch/
+                        <group name="batchID"><regex type="alphanum"/></group>
+                        <regex type="anything"/>
+                    </group>
+                    <group name="OrderRequest">
+                        res:/cogito/online/taxed/order/
+                        <group name="orderID"><regex type="alphanum"/></group>
+                        <regex type="anything"/>
+                    </group>                    
+                  </choice>
+             </grammar>
+             <class>cogito.online.ordering.TaxedOrdersAccessor</class>
+        </accessor>
+        <accessor>
+            <!-- Example: res:/cogito/registration/synchronous 
+            OR res:/cogito/registration/asynchronous -->
+            <grammar>
+	            <group name="RegistrationRequest">
+	                res:/cogito/registration/
+	                <group name="registrationType"><regex type="alphanum"/></group>
+	                <regex type="anything"/>
+	            </group>
+             </grammar>
+             <class>cogito.online.registration.RegistrationAccessor</class>
+        </accessor>                       
+        <!-- Dynamic Import: HTTP Fulcrum --> 
+        <fileset>
+            <regex>res:/etc/system/SimpleDynamicImportHook.xml</regex>
+        </fileset>
+        <!-- Module Icon -->   
+        <fileset>
+            <regex>res:/cogito/online/pub/(.*)</regex>
+            <rewrite>res:/pub/$1</rewrite>
+        </fileset>
+        <!-- Import private rootspace from within this modules -->
+        <import>
+            <private/>
+            <uri>urn:cogito:online:calculations</uri>
+        </import>        
+        <!-- Import public rootspaces from other modules --> 
+        <import>
+            <uri>urn:org:netkernel:ext:layer1</uri>
+        </import>
+        <import>
+            <uri>urn:org:netkernel:xml:core</uri>
+         </import>
+    </rootspace>
+    <rootspace public="false" uri="urn:cogito:online:calculations">
+        <accessor>
+            <!-- Example: res:/cogito/online/price/Dice 
+            OR res:/cogito/online/discount/Marbles -->
+            <grammar>
+                 <choice>
+                    <group name="PriceRequest">
+                        res:/cogito/online/price/
+                        <group name="priceID"><regex type="alphanum"/></group>
+                        <regex type="anything"/>
+                    </group>
+                    <group name="DiscountRequest">
+                        res:/cogito/online/discount/
+                        <group name="discountID"><regex type="alphanum"/></group>
+                        <regex type="anything"/>
+                    </group>
+                    <group name="TaxRequest">
+                        res:/cogito/online/tax/
+                        <group name="customer"><regex type="alphanum"/></group>
+                        <regex type="anything"/>
+                    </group>                      
+                  </choice>
+             </grammar>
+             <class>cogito.online.ordering.PricingAccessor</class>
+        </accessor>
+        <accessor>
+            <!-- Example: res:/cogito/calculation/magic-->
+            <grammar>
+                res:/cogito/calculation/magic
+             </grammar>
+             <class>cogito.online.registration.MagicalPowerAccessor</class>
+        </accessor>
+        <accessor>
+            <!-- Example: res:/cogito/calculation/showmanship-->
+            <grammar>
+                res:/cogito/calculation/showmanship
+             </grammar>
+             <class>cogito.online.registration.ShowmanshipAccessor</class>
+        </accessor>                        
+        <!-- Import public rootspaces from other modules --> 
+        <import>
+            <uri>urn:org:netkernel:ext:layer1</uri>
+        </import>
+        <import>
+            <uri>urn:org:netkernel:xml:core</uri>
+         </import>
+    </rootspace>
+</module>
